@@ -143,7 +143,9 @@ let router = Router.infer SetPage (fun model -> model.page)
 
 type Main = Template<"wwwroot/main.html">
 
-
+let homePage model dispatch =
+    Main.Home().Elt()
+    
 let dataPage model (username: string) dispatch =
     Main.Data()
         .Reload(fun _ -> dispatch GetBooks)
@@ -190,6 +192,7 @@ let view model dispatch =
         
         .Body(
             cond model.page <| function
+            | Home -> homePage model dispatch
             | Data ->
                 cond model.signedInAs <| function
                 | Some username -> dataPage model username dispatch

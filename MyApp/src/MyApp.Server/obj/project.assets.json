@@ -6470,11 +6470,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Server\\MyApp.Server.fsproj",
+      "projectUniqueName": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Server\\MyApp.Server.fsproj",
       "projectName": "MyApp.Server",
-      "projectPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Server\\MyApp.Server.fsproj",
+      "projectPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Server\\MyApp.Server.fsproj",
       "packagesPath": "C:\\Users\\LOGS086\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Server\\obj\\",
+      "outputPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -6493,8 +6493,8 @@
       "frameworks": {
         "netcoreapp3.0": {
           "projectReferences": {
-            "C:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj": {
-              "projectPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj"
+            "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj": {
+              "projectPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj"
             }
           }
         }

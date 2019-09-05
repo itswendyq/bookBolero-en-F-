@@ -4836,11 +4836,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj",
+      "projectUniqueName": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj",
       "projectName": "MyApp.Client",
-      "projectPath": "c:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj",
+      "projectPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Client\\MyApp.Client.fsproj",
       "packagesPath": "C:\\Users\\LOGS086\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\LOGS086\\Desktop\\DocPasante\\MyApp\\src\\MyApp.Client\\obj\\",
+      "outputPath": "C:\\Users\\LOGS086\\Desktop\\DocPasante\\bookBolero\\MyApp\\src\\MyApp.Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
