@@ -1,0 +1,96 @@
+<div class="columns">
+  <aside class="column sidebar is-narrow">
+    <section class="section">
+      <nav class="menu">
+        <ul class="menu-list">
+          ${Menu}
+          <template id="MenuItem">
+            <li><a class="${Active}" href="${Url}">${Text}</a></li>
+          </template>
+        </ul>
+      </nav>
+    </section>
+  </aside>
+  <div class="column" style="width: 100%; height: 100%;">
+    <section class="section" >
+      ${Body}
+
+      <div id="notification-area">
+        <div>${Error}</div>
+      </div>
+
+      <template id="Home">
+      
+      </template>
+
+      <template id="Data">
+        <h1 class="title">
+          Download data
+          <button class="button" onclick="${Reload}">Reload</button>
+        </h1>
+        <p>
+          Signed in as ${Username}.
+          <button class="button" onclick="${SignOut}">Sign out</button>
+        </p>
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th>Cédula</th>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th>Edad</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${Rows}
+            <template id="EmptyData">
+              <tr><td colspan="4">Downloading book list...</td></tr>
+            </template>
+          </tbody>
+        </table>
+      </template>
+
+      <template id="SignIn" >
+        <div class="card" style="width: 50%">
+          <header class="card-header" style="background-color:darkslategrey">
+            <p class="card-header-title text-center" style="color:white">
+              Sign in
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <form onsubmit="${SignIn}">
+                <div class="field ">
+                  <label class="label">Username</label>
+                  <div class="control">
+                    <input class="input " bind="${Username}" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Password</label>
+                  <div class="control">
+                    <input class="input" type="password" bind="${Password}" />
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <input class="button is-info" type="submit" value="Sign in" />
+                  </div>
+                </div>
+                ${ErrorNotification}
+              </form>
+            </div>
+          </div>
+        </div>   
+      </template>
+
+      <template id="ErrorNotification">
+        <div class="notification is-warning">
+          <button class="delete ${HideClass}" onclick="${Hide}"></button>
+          ${Text}
+        </div>
+      </template>
+
+    </section>
+  </div>
+</div>
