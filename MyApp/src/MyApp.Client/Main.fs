@@ -11,15 +11,19 @@ open Bolero.Templating.Client
 
 /// Routing endpoints definition.
 type Page =
-    | [<EndPoint "/">] Home
+    | [<EndPoint "/home">] Home
     | [<EndPoint "/counter">] Counter
     | [<EndPoint "/data">] Data
+    | [<EndPoint "/" >] Calculator
 
 /// The Elmish application's model.
 type Model =
     {
         page: Page
         counter: int
+        calculator: int
+        number1: int
+        number2: int
         books: Book[] option
         error: string option
         username: string
@@ -40,7 +44,10 @@ and Book =
 let initModel =
     {
         page = Home
-        counter = 0
+        counter =  0
+        calculator = 0
+        number1 = 0
+        number2 = 0
         books = None
         error = None
         username = ""
@@ -79,6 +86,13 @@ type Message =
     | SetPage of Page
     | Increment
     | Decrement
+    | Add
+    | Substract
+    | Multiply
+    | Divide
+    | SetNumber1 of int
+    | SetNumber2 of int
+    | SetCalculator of int
     | SetCounter of int
     | GetBooks
     | GotBooks of Book[]
@@ -105,8 +119,24 @@ let update remote message model =
         { model with counter = model.counter + 1 }, Cmd.none
     | Decrement ->
         { model with counter = model.counter - 1 }, Cmd.none
+    | SetNumber1 n ->
+        { model with number1 = n }, Cmd.none
+    | SetNumber2 n ->
+        { model with number2 = n }, Cmd.none
+    | Add ->
+        { model with calculator = model.number1 + model.number2  }, Cmd.none
+    | Substract ->
+        { model with calculator = model.number1 - model.number2  }, Cmd.none
+    | Multiply ->
+        { model with calculator = model.number1 * model.number2  }, Cmd.none
+    | Divide ->
+        { model with calculator = model.number1 / model.number2  }, Cmd.none
+    
     | SetCounter value ->
         { model with counter = value }, Cmd.none
+
+    | SetCalculator value ->
+        { model with calculator = value }, Cmd.none    
 
     | GetBooks ->
         let cmd = Cmd.ofAsync remote.getBooks () GotBooks Error
@@ -145,7 +175,18 @@ type Main = Template<"wwwroot/main.html">
 
 let homePage model dispatch =
     Main.Home().Elt()
-    
+
+let calculatorPage model dispatch=
+    Main.Calculator()
+        .Add(fun _ -> dispatch Add)
+        .Substract(fun _ -> dispatch Substract)
+        .Multiply(fun _ -> dispatch Multiply)
+        .Divide(fun _ -> dispatch Divide)
+        .Number1(model.number1, fun x -> dispatch (SetNumber1 x) )
+        .Number2(model.number2, fun x -> dispatch (SetNumber2 x))       
+        .Value(model.calculator, fun v -> dispatch (SetCalculator v))
+        .Elt()
+
 let dataPage model (username: string) dispatch =
     Main.Data()
         .Reload(fun _ -> dispatch GetBooks)
@@ -193,10 +234,13 @@ let view model dispatch =
         .Body(
             cond model.page <| function
             | Home -> homePage model dispatch
+            | Calculator -> calculatorPage model dispatch
             | Data ->
                 cond model.signedInAs <| function
                 | Some username -> dataPage model username dispatch
                 | None -> signInPage model dispatch
+            | Counter -> failwith "Not Implemented"
+            
         )
         .Error(
             cond model.error <| function
