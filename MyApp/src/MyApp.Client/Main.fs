@@ -14,16 +14,12 @@ type Page =
     | [<EndPoint "/home">] Home
     | [<EndPoint "/counter">] Counter
     | [<EndPoint "/data">] Data
-    | [<EndPoint "/" >] Calculator
 
 /// The Elmish application's model.
 type Model =
     {
         page: Page
         counter: int
-        calculator: int
-        number1: int
-        number2: int
         books: Book[] option
         error: string option
         username: string
@@ -45,9 +41,6 @@ let initModel =
     {
         page = Home
         counter =  0
-        calculator = 0
-        number1 = 0
-        number2 = 0
         books = None
         error = None
         username = ""
@@ -65,8 +58,6 @@ type BookService =
         /// Add a book in the collection.
         addBook: Book -> Async<unit>
 
-        /// Remove a book from the collection, identified by its ISBN.
-        removeBookByIsbn: string -> Async<unit>
 
         /// Sign into the application.
         signIn : string * string -> Async<option<string>>
@@ -86,13 +77,6 @@ type Message =
     | SetPage of Page
     | Increment
     | Decrement
-    | Add
-    | Substract
-    | Multiply
-    | Divide
-    | SetNumber1 of int
-    | SetNumber2 of int
-    | SetCalculator of int
     | SetCounter of int
     | GetBooks
     | GotBooks of Book[]
@@ -114,36 +98,17 @@ let update remote message model =
     match message with
     | SetPage page ->
         { model with page = page }, Cmd.none
-
     | Increment ->
         { model with counter = model.counter + 1 }, Cmd.none
     | Decrement ->
         { model with counter = model.counter - 1 }, Cmd.none
-    | SetNumber1 n ->
-        { model with number1 = n }, Cmd.none
-    | SetNumber2 n ->
-        { model with number2 = n }, Cmd.none
-    | Add ->
-        { model with calculator = model.number1 + model.number2  }, Cmd.none
-    | Substract ->
-        { model with calculator = model.number1 - model.number2  }, Cmd.none
-    | Multiply ->
-        { model with calculator = model.number1 * model.number2  }, Cmd.none
-    | Divide ->
-        { model with calculator = model.number1 / model.number2  }, Cmd.none
-    
     | SetCounter value ->
-        { model with counter = value }, Cmd.none
-
-    | SetCalculator value ->
-        { model with calculator = value }, Cmd.none    
-
+        { model with counter = value }, Cmd.none 
     | GetBooks ->
         let cmd = Cmd.ofAsync remote.getBooks () GotBooks Error
         { model with books = None }, cmd
     | GotBooks books ->
         { model with books = Some books }, Cmd.none
-
     | SetUsername s ->
         { model with username = s }, Cmd.none
     | SetPassword s ->
@@ -160,7 +125,6 @@ let update remote message model =
         model, Cmd.ofAsync remote.signOut () (fun () -> RecvSignOut) Error
     | RecvSignOut ->
         { model with signedInAs = None; signInFailed = false }, Cmd.none
-
     | Error RemoteUnauthorizedException ->
         { model with error = Some "You have been logged out."; signedInAs = None }, Cmd.none
     | Error exn ->
@@ -175,17 +139,6 @@ type Main = Template<"wwwroot/main.html">
 
 let homePage model dispatch =
     Main.Home().Elt()
-
-let calculatorPage model dispatch=
-    Main.Calculator()
-        .Add(fun _ -> dispatch Add)
-        .Substract(fun _ -> dispatch Substract)
-        .Multiply(fun _ -> dispatch Multiply)
-        .Divide(fun _ -> dispatch Divide)
-        .Number1(model.number1, fun x -> dispatch (SetNumber1 x) )
-        .Number2(model.number2, fun x -> dispatch (SetNumber2 x))       
-        .Value(model.calculator, fun v -> dispatch (SetCalculator v))
-        .Elt()
 
 let dataPage model (username: string) dispatch =
     Main.Data()
@@ -234,7 +187,6 @@ let view model dispatch =
         .Body(
             cond model.page <| function
             | Home -> homePage model dispatch
-            | Calculator -> calculatorPage model dispatch
             | Data ->
                 cond model.signedInAs <| function
                 | Some username -> dataPage model username dispatch

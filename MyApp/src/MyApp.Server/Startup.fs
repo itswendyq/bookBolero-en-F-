@@ -7,10 +7,13 @@ open Microsoft.AspNetCore.Authentication.Cookies
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.EntityFrameworkCore
 open Bolero
 open Bolero.Remoting
 open Bolero.Remoting.Server
 open MyApp
+open FSharp.Control.Tasks.V2
+open MyApp.Server.Models
 open Bolero.Templating.Server
 
 type BookService(env: IWebHostEnvironment) =
@@ -20,8 +23,8 @@ type BookService(env: IWebHostEnvironment) =
         Path.Combine(env.ContentRootPath, "data/books.json")
         |> File.ReadAllText
         |> Json.Deserialize<Client.Main.Book[]>
-        |> ResizeArray
-
+        |> ResizeArray               
+        
     override this.Handler =
         {
             getBooks = Remote.authorize <| fun _ () -> async {
@@ -32,12 +35,8 @@ type BookService(env: IWebHostEnvironment) =
                 books.Add(book)
             }
 
-            removeBookByIsbn = Remote.authorize <| fun _ isbn -> async {
-                books.RemoveAll(fun b -> b.isbn = isbn) |> ignore
-            }
-
             signIn = Remote.withContext <| fun http (username, password) -> async {
-                if password = "password" then
+                if password = "qaz123456!" && username = "WendyQ" then
                     do! http.AsyncSignIn(username, TimeSpan.FromDays(365.))
                     return Some username
                 else
@@ -59,6 +58,8 @@ type Startup() =
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     member this.ConfigureServices(services: IServiceCollection) =
         services.AddMvcCore() |> ignore
+        services
+            .AddDbContext<BooksContext>(fun options -> options.UseSqlServer (@"Server=(localdb)\mssqllocaldb;DataBase=prueba")  |> ignore) |> ignore
         services
             .AddAuthorization()
             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

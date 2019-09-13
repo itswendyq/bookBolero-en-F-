@@ -4,9 +4,17 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Book.fs" />
+    <Compile Include="BookContext.fs" />
     <Compile Include="Startup.fs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0-preview9.19423.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0-preview9.19423.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0-preview9.19423.6">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <ProjectReference Include="..\MyApp.Client\MyApp.Client.fsproj" />
     <PackageReference Include="Bolero.Server" Version="0.7.8-preview*" />
     <PackageReference Include="Bolero.HotReload.Server" Version="0.7.2-preview*" />
